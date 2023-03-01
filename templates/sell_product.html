@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<label>Product name for sale:</label>
+<label>{{ product_name }}</label>
+
+<form method="POST">
+    <input type="number" placeholder="0" step="1" name="quantity_to_sale">
+    <button class="buttons" type="submit">Ok</button>
+    <!-- <button class="buttons" type="reset">Cancel</button> -->
+</form>
+
+{% endblock %}
