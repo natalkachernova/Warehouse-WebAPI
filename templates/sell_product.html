@@ -2,13 +2,13 @@
 
 {% block content %}
 
-<label>Product name for sale:</label>
-<label>{{ product_name }}</label>
+<label>Product name for sale: {{ product_name }}</label>
 
-<form method="POST">
-    <input type="number" placeholder="0" step="1" name="quantity_to_sale">
-    <button class="buttons" type="submit">Ok</button>
-    <!-- <button class="buttons" type="reset">Cancel</button> -->
+<form method="POST" action="/selling/{{ product_name }}">
+    <label>Quantity for sale:  </label>
+    <input type="number" placeholder="0" step="1" max="{{ result_quantity }}" name="quantity_to_sale">
+    <button type="submit">Ok</button>
+    <input type="hidden" name="idproduct" value="{{ idproduct }}">
 </form>
 
 {% endblock %}

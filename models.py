@@ -1,7 +1,10 @@
 import json
+import csv
 from flask_wtf import FlaskForm
 from wtforms import StringField, IntegerField, FloatField
 from wtforms.validators import DataRequired
+
+sold_items = {}
 
 class ProductForm(FlaskForm):
     name = StringField('name', validators=[DataRequired()])
@@ -14,9 +17,22 @@ class ProductSaleForm(FlaskForm):
 
 class Product:
     def __init__(self):
+
+        def load_income_from_csv():
+            with open('income.csv', newline='') as csvfile:
+                reader = csv.DictReader(csvfile)
+                for row in reader:
+                    name = row['name']
+                    quantity = int(row['quantity'])
+                    unit = row['unit']
+                    summ = row['summ']
+                    date = str(row['date'])
+                    sold_items[name] = [quantity, unit, summ, date]
+
         try:
             with open("warehouse.json", "r") as f:
                 self.products = json.load(f)
+            load_income_from_csv()
         except FileNotFoundError:
             self.products = []
 
@@ -34,16 +50,15 @@ class Product:
     def create(self, data):
         self.products.append(data)
         self.save_all()
-    
-    def update(self, name, data):
-        product = self.get(name)
+
+    def update(self, id, data):
+        product = self.get(id)
         if product:
             index = self.products.index(product)
             self.products[index] = data
             self.save_all()
             return True
         return False
-
 
 
 products = Product()
